@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "Tableau de Bord Client";
+}
+
+<div class="container">
+    <h2>Tableau de Bord Client</h2>
+    <h4>Bienvenue @ViewBag.UserName</h4>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Mes Rendez-vous
+                </div>
+                <div class="card-body">
+                    <p>Voir et gérer mes rendez-vous</p>
+                    <a asp-controller="RendezVous" asp-action="Index" class="btn btn-primary">Mes Rendez-vous</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    Prendre Rendez-vous
+                </div>
+                <div class="card-body">
+                    <p>Réserver un nouveau rendez-vous</p>
+                    <a asp-controller="RendezVous" asp-action="Create" class="btn btn-success">Nouveau Rendez-vous</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Services Disponibles
+                </div>
+                <div class="card-body">
+                    <p>Voir les services proposés</p>
+                    <a asp-controller="Service" asp-action="Index" class="btn btn-info">Voir les Services</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    Mes Paiements
+                </div>
+                <div class="card-body">
+                    <p>Historique de mes paiements</p>
+                    <a asp-controller="Paiement" asp-action="Index" class="btn btn-warning">Voir mes Paiements</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+@model spaV1.Models.StatisticsViewModel
+@{
+    ViewData["Title"] = "Statistiques";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Statistiques du Spa</h2>
+
+    <div class="row mt-4">
+        <!-- Statistiques générales -->
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Vue d'ensemble</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center mb-3">
+                                <h6>Services Actifs</h6>
+                                <h3 class="text-primary">@Model.TotalServices</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center mb-3">
+                                <h6>Employés</h6>
+                                <h3 class="text-success">@Model.TotalEmployees</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center mb-3">
+                                <h6>Clients</h6>
+                                <h3 class="text-info">@Model.TotalClients</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rendez-vous et Revenus -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Activité</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <h6>Total des Rendez-vous</h6>
+                        <h3 class="text-success">@Model.TotalAppointments</h3>
+                    </div>
+                    <div class="text-center">
+                        <h6>Revenus Totaux</h6>
+                        <h3 class="text-success">@Model.TotalRevenue.ToString("C2")</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services les plus populaires -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Services les Plus Demandés</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        @foreach (var service in Model.TopServices)
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                @service.ServiceName
+                                <span class="badge bg-primary rounded-pill">@service.Count réservations</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

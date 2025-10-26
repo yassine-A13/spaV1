@@ -1,0 +1,107 @@
+@{
+    ViewData["Title"] = "Tableau de Bord Gérant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Tableau de Bord Gérant</h2>
+            <h4>Bienvenue, @ViewBag.UserName!</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Gestion des Employés -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Gestion des Employés</h5>
+                </div>
+                <div class="card-body">
+                    <p>Gérer les employés du spa :</p>
+                    <ul>
+                        <li>Ajouter de nouveaux employés</li>
+                        <li>Modifier les informations</li>
+                        <li>Voir la liste des employés</li>
+                    </ul>
+                    <a asp-controller="Users" asp-action="Index" class="btn btn-primary">Gérer les Employés</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestion des Services -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Gestion des Services</h5>
+                </div>
+                <div class="card-body">
+                    <p>Gérer les services du spa :</p>
+                    <ul>
+                        <li>Ajouter de nouveaux services</li>
+                        <li>Modifier les prix</li>
+                        <li>Gérer les disponibilités</li>
+                    </ul>
+                    <a asp-controller="Service" asp-action="Index" class="btn btn-success">Gérer les Services</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rapports Financiers -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">Rapports Financiers</h5>
+                </div>
+                <div class="card-body">
+                    <p>Gérer les finances :</p>
+                    <ul>
+                        <li>Voir les paiements</li>
+                        <li>Gérer les transactions</li>
+                        <li>Consulter les revenus</li>
+                    </ul>
+                    <a asp-controller="Paiement" asp-action="Index" class="btn btn-info">Voir les Paiements</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Vue d'ensemble des Rendez-vous -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="card-title mb-0">Vue d'ensemble des Rendez-vous</h5>
+                </div>
+                <div class="card-body">
+                    <p>Gérer les rendez-vous :</p>
+                    <ul>
+                        <li>Voir tous les rendez-vous</li>
+                        <li>Gérer les plannings</li>
+                        <li>Superviser les réservations</li>
+                    </ul>
+                    <a asp-controller="RendezVous" asp-action="Index" class="btn btn-warning">Voir les Rendez-vous</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistiques -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title mb-0">Statistiques</h5>
+                </div>
+                <div class="card-body">
+                    <p>Analyse des données :</p>
+                    <ul>
+                        <li>Services les plus demandés</li>
+                        <li>Taux d'occupation</li>
+                        <li>Performance des employés</li>
+                    </ul>
+                    <a asp-controller="Statistics" asp-action="Index" class="btn btn-secondary">Voir les Statistiques</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

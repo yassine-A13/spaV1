@@ -29,14 +29,27 @@ namespace spaV1.Controllers
 		// Ajout en base
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Nom,Prenom,Email,Telephone,Role")] User user)
+		public async Task<IActionResult> Create(User user)
 		{
-			if (ModelState.IsValid)
-			{
-				await _userService.CreateUserAsync(user);
-				return RedirectToAction(nameof(Index));
-			}
-			return View(user);
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrEmpty(user.Password) || user.Password.Length < 6)
+                {
+                    ModelState.AddModelError("Password", "Le mot de passe doit contenir au moins 6 caractères");
+                    return View(user);
+                }
+
+                try
+                {
+                    await _userService.CreateUserAsync(user);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de la création de l'utilisateur : " + ex.Message);
+                }
+            }
+            return View(user);
 		}
 	}
 }
