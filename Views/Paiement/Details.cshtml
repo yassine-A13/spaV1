@@ -1,0 +1,27 @@
+@model spaV1.Models.Paiement
+
+@{
+    ViewData["Title"] = "Détails du Paiement";
+}
+
+<h1>Détails du Paiement</h1>
+
+<div>
+    <h4>Paiement</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Date du Paiement</dt>
+        <dd class="col-sm-10">@Model.DatePaiement.ToString("dd/MM/yyyy HH:mm")</dd>
+
+        <dt class="col-sm-2">Montant</dt>
+        <dd class="col-sm-10">@Model.Montant.ToString("C")</dd>
+
+        <dt class="col-sm-2">Rendez-vous</dt>
+        <dd class="col-sm-10">@Model.RendezVousId</dd>
+    </dl>
+
+    <p>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Modifier</a>
+        <a asp-action="Index" class="btn btn-secondary">Retour</a>
+    </p>
+</div>

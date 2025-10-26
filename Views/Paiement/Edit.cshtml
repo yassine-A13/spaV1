@@ -1,15 +1,16 @@
 @model spaV1.Models.Paiement
 
 @{
-    ViewData["Title"] = "Créer un Paiement";
+    ViewData["Title"] = "Modifier un Paiement";
 }
 
-<h1>Créer un Paiement</h1>
+<h1>Modifier un Paiement</h1>
 
 <div class="row">
     <div class="col-md-6">
-    <form id="paiementForm" asp-action="Create" method="post">
+    <form id="paiementEditForm" asp-action="Edit" method="post">
             @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @if (ViewBag.ModelErrors != null)
             {
@@ -22,7 +23,7 @@
                     </ul>
                 </div>
             }
-            
+
             <div class="form-group">
                 <label asp-for="DatePaiement" class="control-label">Date du Paiement</label>
                 <input asp-for="DatePaiement" class="form-control" type="datetime-local" />
@@ -42,8 +43,8 @@
             </div>
 
             <div class="form-group mt-3">
-                <button type="submit" class="btn btn-primary">Créer</button>
-                <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a asp-action="Index" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
     </div>
@@ -52,13 +53,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        // Debug: log form submit to help diagnose why the submit button may appear to not work
         (function(){
-            const f = document.getElementById('paiementForm');
+            const f = document.getElementById('paiementEditForm');
             if (!f) return;
             f.addEventListener('submit', function(e){
-                console.log('paiementForm submit event fired');
-                // disable the submit button to prevent double submits
+                console.log('paiementEditForm submit event fired');
                 const btn = f.querySelector('button[type="submit"]');
                 if (btn) btn.disabled = true;
             });

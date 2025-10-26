@@ -8,11 +8,11 @@ namespace spaV1.Models
         public DateTime Date { get; set; }
 
         public int UserId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public int ServiceId { get; set; }
-        public Service Service { get; set; }
+        public Service? Service { get; set; }
 
-        public Paiement Paiement { get; set; } // relation 1-1
+        public Paiement? Paiement { get; set; } // relation 1-1
     }
 }

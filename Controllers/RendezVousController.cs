@@ -49,9 +49,23 @@ namespace spaV1.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _rendezVousService.CreateRendezVousAsync(rendezVous);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _rendezVousService.CreateRendezVousAsync(rendezVous);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    // capture DB or other exceptions to show in the view for debugging
+                    ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de l'enregistrement : " + ex.Message);
+                }
             }
+
+            // If we get here, either ModelState was invalid or an exception occurred.
+            // Collect ModelState errors to help debugging in the view.
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            ViewBag.ModelErrors = errors;
+
             await PrepareViewBags();
             return View(rendezVous);
         }

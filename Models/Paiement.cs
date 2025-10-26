@@ -7,6 +7,6 @@
         public decimal Montant { get; set; }
 
         public int RendezVousId { get; set; }
-        public RendezVous RendezVous { get; set; }
+        public RendezVous? RendezVous { get; set; }
     }
 }
