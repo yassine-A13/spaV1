@@ -1,0 +1,57 @@
+# Visual Studio / .NET
+.vs/
+bin/
+obj/
+*/bin/
+*/obj/
+Debug/
+Release/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider/IDE
+.idea/
+
+# VS Code settings
+.vscode/
+
+# NuGet
+*.nupkg
+# NuGet cache
+*.nupkg.sha512
+
+# Build results
+*.dll
+*.exe
+*.pdb
+*.app
+*.appx
+*.appxbundle
+*.msix
+
+# Test results
+TestResults/
+
+# Entity Framework
+*.db
+
+# Logs
+*.log
+
+# VS publish folder
+*.Publish.xml
+
+# npm
+node_modules/
+
+# Mac
+.DS_Store
+
+# JetBrains
+_ReSharper*/
+*.DotSettings.user
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
