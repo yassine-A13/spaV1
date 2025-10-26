@@ -1,21 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using spaV1.Models;
+using spaV1.Interfaces;
 
 namespace spaV1.Controllers
 {
 	public class UsersController : Controller
 	{
-		private readonly ApplicationDbContext _context;
+		private readonly IUserService _userService;
 
-		public UsersController(ApplicationDbContext context)
+		public UsersController(IUserService userService)
 		{
-			_context = context;
+			_userService = userService;
 		}
 
 		// Affiche la liste des utilisateurs
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			var users = _context.Users.ToList();
+			var users = await _userService.GetAllUsersAsync();
 			return View(users);
 		}
 
@@ -27,12 +28,12 @@ namespace spaV1.Controllers
 
 		// Ajout en base
 		[HttpPost]
-		public IActionResult Create(User user)
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("Nom,Prenom,Email,Telephone,Role")] User user)
 		{
 			if (ModelState.IsValid)
 			{
-				_context.Users.Add(user);
-				_context.SaveChanges();
+				await _userService.CreateUserAsync(user);
 				return RedirectToAction(nameof(Index));
 			}
 			return View(user);

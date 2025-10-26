@@ -1,0 +1,115 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using spaV1.Interfaces;
+using spaV1.Models;
+
+namespace spaV1.Controllers
+{
+    public class RendezVousController : Controller
+    {
+        private readonly IRendezVousService _rendezVousService;
+        private readonly IUserService _userService;
+        private readonly IServiceSpa _serviceSpa;
+
+        public RendezVousController(
+            IRendezVousService rendezVousService,
+            IUserService userService,
+            IServiceSpa serviceSpa)
+        {
+            _rendezVousService = rendezVousService;
+            _userService = userService;
+            _serviceSpa = serviceSpa;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var rendezVous = await _rendezVousService.GetAllRendezVousAsync();
+            return View(rendezVous);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var rendezVous = await _rendezVousService.GetRendezVousByIdAsync(id);
+            if (rendezVous == null)
+            {
+                return NotFound();
+            }
+            return View(rendezVous);
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            await PrepareViewBags();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(RendezVous rendezVous)
+        {
+            if (ModelState.IsValid)
+            {
+                await _rendezVousService.CreateRendezVousAsync(rendezVous);
+                return RedirectToAction(nameof(Index));
+            }
+            await PrepareViewBags();
+            return View(rendezVous);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var rendezVous = await _rendezVousService.GetRendezVousByIdAsync(id);
+            if (rendezVous == null)
+            {
+                return NotFound();
+            }
+            await PrepareViewBags();
+            return View(rendezVous);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, RendezVous rendezVous)
+        {
+            if (id != rendezVous.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                await _rendezVousService.UpdateRendezVousAsync(rendezVous);
+                return RedirectToAction(nameof(Index));
+            }
+            await PrepareViewBags();
+            return View(rendezVous);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var rendezVous = await _rendezVousService.GetRendezVousByIdAsync(id);
+            if (rendezVous == null)
+            {
+                return NotFound();
+            }
+            return View(rendezVous);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _rendezVousService.DeleteRendezVousAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+        private async Task PrepareViewBags()
+        {
+            var users = await _userService.GetAllUsersAsync();
+            var services = await _serviceSpa.GetAllServicesAsync();
+            
+            ViewBag.Users = new SelectList(users, "Id", "Nom");
+            ViewBag.Services = new SelectList(services, "Id", "NomService");
+        }
+    }
+}

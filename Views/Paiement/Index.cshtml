@@ -1,0 +1,35 @@
+@model IEnumerable<spaV1.Models.Paiement>
+
+@{
+    ViewData["Title"] = "Liste des Paiements";
+}
+
+<h1>Liste des Paiements</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Créer un Nouveau Paiement</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.DatePaiement)</th>
+            <th>@Html.DisplayNameFor(model => model.Montant)</th>
+            <th>@Html.DisplayNameFor(model => model.RendezVousId)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.DatePaiement)</td>
+                <td>@Html.DisplayFor(modelItem => item.Montant) €</td>
+                <td>@Html.DisplayFor(modelItem => item.RendezVousId)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Modifier</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce paiement?');">Supprimer</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,42 @@
+@model spaV1.Models.Paiement
+
+@{
+    ViewData["Title"] = "Créer un Paiement";
+}
+
+<h1>Créer un Paiement</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="DatePaiement" class="control-label">Date du Paiement</label>
+                <input asp-for="DatePaiement" class="form-control" type="datetime-local" />
+                <span asp-validation-for="DatePaiement" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Montant" class="control-label">Montant</label>
+                <input asp-for="Montant" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="Montant" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RendezVousId" class="control-label">Rendez-vous</label>
+                <select asp-for="RendezVousId" class="form-control" asp-items="ViewBag.RendezVous"></select>
+                <span asp-validation-for="RendezVousId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Créer" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
