@@ -15,7 +15,7 @@
             <th>Date</th>
             <th>Client</th>
             <th>Service</th>
-            <th>Actions</th>
+            <th>Statut</th>
         </tr>
     </thead>
     <tbody>
@@ -25,10 +25,29 @@
                 <td>@item.Date.ToString("dd/MM/yyyy HH:mm")</td>
                 <td>@item.User?.Nom @item.User?.Prenom</td>
                 <td>@item.Service?.NomService</td>
+                <td>@(item.Status ?? "Pending")</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Modifier</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Détails</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Supprimer</a>
+                    @{ var role = Context.Session.GetString("UserRole") ?? ""; }
+                    @if (role.ToLower() == "gerant")
+                    {
+                        <!-- For gerant: show Accept / Refuse -->
+                        <form asp-action="Accept" method="post" style="display:inline"> 
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-success btn-sm" @(item.Status=="Accepted"?"disabled":"")>Accepter</button>
+                        </form>
+                        <form asp-action="Refuse" method="post" style="display:inline;margin-left:4px"> 
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm" @(item.Status=="Refused"?"disabled":"")>Refuser</button>
+                        </form>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Détails</a>
+                    }
+                    else
+                    {
+                        <!-- For clients and others: keep CRUD actions -->
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Détails</a>
+                    }
                 </td>
             </tr>
         }

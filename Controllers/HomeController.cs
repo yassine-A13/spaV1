@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using spaV1.Models;
 using spaV1.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace spaV1.Controllers
 {
@@ -16,6 +17,8 @@ namespace spaV1.Controllers
 
         public IActionResult Index()
         {
+            // Hide the navbar on the login page
+            ViewData["HideNavbar"] = true;
             return View();
         }
 
@@ -30,10 +33,10 @@ namespace spaV1.Controllers
 
             if (user != null)
             {
-                // Dans un vrai système, vous utiliseriez une authentification appropriée avec hachage du mot de passe
-                TempData["UserId"] = user.Id;
-                TempData["UserRole"] = user.Role;
-                TempData["UserName"] = $"{user.Prenom} {user.Nom}";
+                // Store user information in session
+                HttpContext.Session.SetInt32("UserId", user.Id);
+                HttpContext.Session.SetString("UserRole", user.Role);
+                HttpContext.Session.SetString("UserName", $"{user.Prenom} {user.Nom}");
 
                 switch (user.Role.ToLower())
                 {
@@ -52,33 +55,34 @@ namespace spaV1.Controllers
             return RedirectToAction("Index");
         }
 
+        // Restrict access to dashboards based on role
         public IActionResult GerantDashboard()
         {
-            if (TempData["UserRole"]?.ToString()?.ToLower() != "gerant")
+            if (HttpContext.Session.GetString("UserRole")?.ToLower() != "gerant")
             {
-                return RedirectToAction("Index");
+                return Unauthorized();
             }
-            ViewBag.UserName = TempData["UserName"];
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
             return View();
         }
 
         public IActionResult EmployeeDashboard()
         {
-            if (TempData["UserRole"]?.ToString()?.ToLower() != "employee")
+            if (HttpContext.Session.GetString("UserRole")?.ToLower() != "employee")
             {
-                return RedirectToAction("Index");
+                return Unauthorized();
             }
-            ViewBag.UserName = TempData["UserName"];
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
             return View();
         }
 
         public IActionResult ClientDashboard()
         {
-            if (TempData["UserRole"]?.ToString()?.ToLower() != "client")
+            if (HttpContext.Session.GetString("UserRole")?.ToLower() != "client")
             {
-                return RedirectToAction("Index");
+                return Unauthorized();
             }
-            ViewBag.UserName = TempData["UserName"];
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
             return View();
         }
 

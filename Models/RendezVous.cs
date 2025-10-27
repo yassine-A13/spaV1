@@ -14,5 +14,7 @@ namespace spaV1.Models
         public Service? Service { get; set; }
 
         public Paiement? Paiement { get; set; } // relation 1-1
+        // Status of the rendez-vous: Pending, Accepted, Refused
+        public string? Status { get; set; } = "Pending";
     }
 }

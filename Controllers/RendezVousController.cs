@@ -51,6 +51,8 @@ namespace spaV1.Controllers
             {
                 try
                 {
+                    // Ensure new rendez-vous starts as Pending
+                    rendezVous.Status = rendezVous.Status ?? "Pending";
                     await _rendezVousService.CreateRendezVousAsync(rendezVous);
                     return RedirectToAction(nameof(Index));
                 }
@@ -99,21 +101,25 @@ namespace spaV1.Controllers
             return View(rendezVous);
         }
 
-        public async Task<IActionResult> Delete(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Accept(int id)
         {
             var rendezVous = await _rendezVousService.GetRendezVousByIdAsync(id);
-            if (rendezVous == null)
-            {
-                return NotFound();
-            }
-            return View(rendezVous);
+            if (rendezVous == null) return NotFound();
+            rendezVous.Status = "Accepted";
+            await _rendezVousService.UpdateRendezVousAsync(rendezVous);
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Refuse(int id)
         {
-            await _rendezVousService.DeleteRendezVousAsync(id);
+            var rendezVous = await _rendezVousService.GetRendezVousByIdAsync(id);
+            if (rendezVous == null) return NotFound();
+            rendezVous.Status = "Refused";
+            await _rendezVousService.UpdateRendezVousAsync(rendezVous);
             return RedirectToAction(nameof(Index));
         }
 

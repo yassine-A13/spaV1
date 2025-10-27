@@ -1,0 +1,25 @@
+@* Simple back button partial used across pages *@
+<div id="back-button-container" class="back-button-container" style="margin:10px 0;">
+    <button id="back-button" type="button" class="btn btn-secondary" onclick="window.history.back();">
+        ← Retour
+    </button>
+</div>
+
+<style>
+    /* Small helper to ensure consistent placement */
+    .back-button-container { display: flex; align-items: center; }
+    .back-button-container .btn { min-width: 90px; }
+</style>
+
+<script>
+    // Hide the back button if there's no history to go back to
+    (function(){
+        try {
+            var btn = document.getElementById('back-button-container');
+            if (!btn) return;
+            if (window.history.length <= 1) {
+                btn.style.display = 'none';
+            }
+        } catch(e) { /* ignore in older browsers */ }
+    })();
+</script>

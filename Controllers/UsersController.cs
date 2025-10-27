@@ -51,5 +51,71 @@ namespace spaV1.Controllers
             }
             return View(user);
 		}
+
+		// Détails d'un utilisateur
+		public async Task<IActionResult> Details(int id)
+		{
+			var user = await _userService.GetUserByIdAsync(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+			return View(user);
+		}
+
+		// Formulaire d'édition
+		public async Task<IActionResult> Edit(int id)
+		{
+			var user = await _userService.GetUserByIdAsync(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+			return View(user);
+		}
+
+		// Enregistrement des modifications
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, User user)
+		{
+			if (id != user.Id)
+			{
+				return NotFound();
+			}
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					await _userService.UpdateUserAsync(user);
+					return RedirectToAction(nameof(Index));
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de la mise à jour : " + ex.Message);
+				}
+			}
+			return View(user);
+		}
+
+		// Affiche la confirmation de suppression
+		public async Task<IActionResult> Delete(int id)
+		{
+			var user = await _userService.GetUserByIdAsync(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+			return View(user);
+		}
+
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			await _userService.DeleteUserAsync(id);
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }

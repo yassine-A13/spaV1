@@ -18,9 +18,10 @@ namespace spaV1.Services
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User?> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
+            return user;
         }
 
         public async Task<User> CreateUserAsync(User user)

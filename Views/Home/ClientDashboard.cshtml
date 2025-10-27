@@ -45,6 +45,23 @@
     </div>
 
     <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Modifier Les informations Personnelles
+                </div>
+                <div class="card-body">
+                    <p>Voir et modifier mes informations personnelles</p>
+                    @{
+                        var userId = Context.Session.GetInt32("UserId");
+                    }
+                    <a asp-controller="Users" asp-action="Edit" asp-route-id="@(userId ?? 0)" class="btn btn-info">Modifier mes Informations</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
         <div class="col-md-6 mx-auto">
             <div class="card">
                 <div class="card-header bg-warning text-white">

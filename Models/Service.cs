@@ -3,8 +3,8 @@
     public class Service
     {
         public int Id { get; set; }
-        public string NomService { get; set; }
-        public string TypeService { get; set; } // massage, soins, manucure...
+        public string NomService { get; set; } = null!;
+        public string TypeService { get; set; } = null!; // massage, soins, manucure...
         public decimal Prix { get; set; }
     }
 }

@@ -14,5 +14,19 @@ namespace spaV1.Models
         public DbSet<Service> Services { get; set; }
         public DbSet<RendezVous> RendezVous { get; set; }
         public DbSet<Paiement> Paiements { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Ensure decimal properties use an explicit SQL type to avoid precision/scale warnings
+            modelBuilder.Entity<Service>()
+                .Property(s => s.Prix)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Paiement>()
+                .Property(p => p.Montant)
+                .HasColumnType("decimal(18,2)");
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
